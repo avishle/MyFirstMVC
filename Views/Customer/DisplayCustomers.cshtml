@@ -1,0 +1,25 @@
+﻿@model MyFirstMVC.ViewModel.CustomersViewModel
+@using MyFirstMVC.Models;
+<p></p>
+<span style="color:blue">currents customers</span>
+<br />
+@{ 
+    WebGrid wg = new WebGrid(Model.custs);
+}
+@wg.GetHtml()
+
+@*<table>
+    <tr>
+        <td> First Name</td>
+        <td> Last Name</td>
+        <td> Customer Number</td>
+    </tr>
+    @foreach (Customer obj in Model.custs)
+            {
+        <tr>
+            <td>@obj.FirstName</td>
+            <td>@obj.LastName</td>
+            <td>@obj.CustomerNumber</td>
+        </tr>
+    }
+</table>*@

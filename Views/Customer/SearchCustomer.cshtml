@@ -1,0 +1,25 @@
+﻿@model MyFirstMVC.ViewModel.CustomersViewModel
+@using MyFirstMVC.Models;
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>SearchCustomer</title>
+</head>
+<body>
+    <div> 
+        @using (Html.BeginForm("FindCustomer", "Customer", FormMethod.Post))
+        {
+            <i> Enter First Name To search:</i> @Html.TextBoxFor(m => m.customer.FirstName)
+            <input id="Submit1" type="submit" value="Search customer" />
+        }
+       
+        @Html.Partial("DisplayCustomers", Model);
+    </div>
+</body>
+</html>

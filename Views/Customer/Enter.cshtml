@@ -1,0 +1,108 @@
+﻿@model MyFirstMVC.Models.Customer
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Enter</title>
+</head>
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<body>
+    <div>
+        <form id="addCustomer" name="addCustomer">
+            <table>
+                <tr>
+                    <td>First Name: </td>
+                    <td>@Html.TextBoxFor(m => m.FirstName)</td>
+                    <td>@Html.ValidationMessageFor(x => x.FirstName)</td>
+                </tr>
+                <tr>
+                    <td>Last Name:</td>
+                    <td>@Html.TextBoxFor(m => m.LastName)</td>
+                    <td>@Html.ValidationMessageFor(x => x.LastName)</td>
+                </tr>
+                <tr>
+                    <td>Customer Number:</td>
+                    <td>@Html.TextBoxFor(m => m.CustomerNumber)</td>
+                    <td>@Html.ValidationMessageFor(x => x.CustomerNumber)</td>
+                </tr>
+            </table>
+            <input id="Submit1" type="button" value="Add customer" onclick="UpdateTable()" />
+            
+        </form>
+            
+        <br/>
+        <div id="status"></div>
+        <p></p>
+        <table id="CustomerTBL">
+            <tr>
+                <td> First Name</td>
+                <td> Last Name</td>
+                <td> Customer Number</td>
+            </tr>
+        </table>
+
+        <script language="javascript">
+            $("#status").text("Loading");
+            $.get("GetCustomersByJson", null, CreateTable);
+            $("#status").text("");
+            function CreateTable(customers)
+            {
+                $("#CustomerTBL").find("tr:gt(0)").remove();
+                var tbl = $("#CustomerTBL")
+                
+                for (k = 0; k < customers.length; k++)
+                    tbl.append("<tr>" +
+                                "<td>" + customers[k].FirstName + "</td>" +
+                                "<td>" + customers[k].LastName + "</td>" +
+                                "<td>" + customers[k].CustomerNumber + "</td>" +
+                                "</tr>");
+                $("#status").text("");
+            }
+            function UpdateTable()
+            {
+                debugger
+                $("#status").text("Loading");
+                var frmData = $("#addCustomer").serialize();
+                if (validateForm() == false)
+                    return;
+                
+                    $.post("Submit", frmData, CreateTable);
+                    /*Clearing TextBox*/
+                    $("#FirstName").val("");
+                    $("#LastName").val("");
+                    $("#CustomerNumber").val("");
+                
+                
+                
+
+            }
+            function validateForm() {
+                var x = document.forms["addCustomer"]["FirstName"].value;
+                if (x == "") {
+                    alert("First Name must be filled out");
+                    return false;
+                }
+                x = document.forms["addCustomer"]["LastName"].value;
+                if (x == "") {
+                    alert("Last Name must be filled out");
+                    return false;
+                }
+                x = document.forms["addCustomer"]["CustomerNumber"].value;
+                if (x == "") {
+                    alert("Customer Num must be filled out");
+                    return false;
+                }
+                return true;
+            }
+            
+        </script>   
+    </div>
+</body>
+</html>
